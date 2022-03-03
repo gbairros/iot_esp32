@@ -3,7 +3,7 @@
 
 
 const char* ssid = "Bairros_wifi";
-const char* password = "@10212728";
+const char* password = "<PASSWORD>";
 const char* serverName = "http://10.0.0.114/cargoreader/index.php";
 
 unsigned long lastTime = 0;
