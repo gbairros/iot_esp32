@@ -14,7 +14,7 @@ byte nuidPICC[4] = {0, 0, 0, 0};
 
 const char* ssid = "Bairros_wifi";
 const char* password = "@10212728";
-const char* serverName = "http://10.0.0.114/cargoreader/index.php";
+const char* serverName = "http://3.235.95.183/iot/index.php";
 
 unsigned long lastTime = 0;
 unsigned long timerDelay = 5000;
