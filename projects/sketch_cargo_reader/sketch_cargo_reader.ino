@@ -126,6 +126,7 @@ void readRFID(void ) { /* function readRFID */
 
 
     if(response == "out"){
+      Serial.print("PIN VERMELHO");
       digitalWrite(PIN_VERMELHO, HIGH);
       delay(1000);
       digitalWrite(PIN_VERMELHO, LOW);    
