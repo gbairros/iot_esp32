@@ -5,7 +5,8 @@
 
 #define SS_PIN 21
 #define RST_PIN 22
-#define PIN_VERDE 12
+#define PIN_VERMELHO 12
+#define PIN_VERDE 26
 
 
 const int ipaddress[4] = {103, 97, 67, 25};
@@ -14,7 +15,8 @@ byte nuidPICC[4] = {0, 0, 0, 0};
 
 const char* ssid = "Bairros_wifi";
 const char* password = "@10212728";
-const char* serverName = "http://3.235.95.183/iot/index.php";
+const char* serverName = "http://34.234.215.69/iot/index.php";
+const char* serverNameCheck = "http://34.234.215.69/iot/check.php";
 
 unsigned long lastTime = 0;
 unsigned long timerDelay = 5000;
@@ -25,6 +27,7 @@ MFRC522 rfid = MFRC522(SS_PIN, RST_PIN);
 
 void setup() {
   Serial.begin(115200);
+  pinMode(PIN_VERMELHO, OUTPUT);
   pinMode(PIN_VERDE, OUTPUT);
 
   WiFi.begin(ssid, password);
@@ -100,10 +103,39 @@ void readRFID(void ) { /* function readRFID */
     
     String tag_id = getTagCode(rfid.uid.uidByte, rfid.uid.size);
     Serial.println("TAG CODE: "+tag_id);
+
+
+    WiFiClient client;
+    HTTPClient http;
     
-    digitalWrite(PIN_VERDE, HIGH);
-    delay(1000);
-    digitalWrite(PIN_VERDE, LOW);    
+    http.begin(client, serverNameCheck);
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+        
+    String httpRequestData = "action=check";
+    int httpResponseCode = http.POST(httpRequestData);
+    
+    Serial.print("HTTP Response code: ");
+    Serial.println(httpResponseCode);
+
+    String response = http.getString();  
+    Serial.print("HTTP Response TEXT: ");
+    Serial.print(response);
+      
+    // Free resources
+    http.end();
+
+
+    if(response == "out"){
+      digitalWrite(PIN_VERMELHO, HIGH);
+      delay(1000);
+      digitalWrite(PIN_VERMELHO, LOW);    
+    }
+    else{
+      digitalWrite(PIN_VERDE, HIGH);
+      delay(1000);
+      digitalWrite(PIN_VERDE, LOW);      
+    }
+    
     
     send_data("in", tag_id);
         

@@ -2,7 +2,7 @@
 #include <SPI.h>//https://www.arduino.cc/en/reference/SPI
 #include <MFRC522.h>//https://github.com/miguelbalboa/rfid
 //Constants
-#define SS_PIN 5
+#define SS_PIN 21
 #define RST_PIN 22
 //Parameters
 const int ipaddress[4] = {103, 97, 67, 25};
@@ -32,7 +32,7 @@ void readRFID(void ) { /* function readRFID */
         key.keyByte[i] = 0xFF;
     }
     // Look for new 1 cards
-    Serial.println("Aguarda Leitura");    
+    //Serial.println("Aguarda Leitura");    
     
     if ( ! rfid.PICC_IsNewCardPresent())
         return;
